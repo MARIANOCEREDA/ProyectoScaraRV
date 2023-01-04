@@ -13,12 +13,20 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+Unity/Robot Scara/[Ll]ibrary/
+Unity/Robot Scara/[Tt]emp/
+Unity/Robot Scara/[Oo]bj/
+Unity/Robot Scara/[Bb]uild/
+Unity/Robot Scara/[Bb]uilds/
+Unity/Robot Scara/[Ll]ogs/
+Unity/Robot Scara/[Uu]ser[Ss]ettings/
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
-/[Mm]emoryCaptures/
+Unity/Robot Scara/[Mm]emoryCaptures/
 
 # Recordings can get excessive in size
-/[Rr]ecordings/
+Unity/Robot Scara/[Rr]ecordings/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -69,10 +77,10 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+Unity/Robot Scara/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
+Unity/Robot Scara/[Aa]ssets/[Ss]treamingAssets/aa.meta
+Unity/Robot Scara/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
