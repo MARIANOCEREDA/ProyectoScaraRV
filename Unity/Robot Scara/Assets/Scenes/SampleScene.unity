@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 390056603}
   - component: {fileID: 390056602}
   - component: {fileID: 390056601}
+  - component: {fileID: 390056605}
   m_Layer: 0
   m_Name: Joint2
   m_TagString: Untagged
@@ -278,10 +279,10 @@ ArticulationBody:
   m_LinearZ: 2
   m_SwingY: 2
   m_SwingZ: 2
-  m_Twist: 2
+  m_Twist: 1
   m_XDrive:
-    lowerLimit: 0
-    upperLimit: 0
+    lowerLimit: -100
+    upperLimit: 100
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
@@ -373,6 +374,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390056599}
   m_Mesh: {fileID: -2340662967146248929, guid: f01fab0dded94cf4989b5543f70c9f87, type: 3}
+--- !u!114 &390056605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390056599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationState: 0
+  speed: 300
 --- !u!1 &508788886
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +401,7 @@ GameObject:
   - component: {fileID: 508788890}
   - component: {fileID: 508788889}
   - component: {fileID: 508788888}
+  - component: {fileID: 508788892}
   m_Layer: 0
   m_Name: EndEffector
   m_TagString: Untagged
@@ -401,7 +417,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508788886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.673, y: 0.128, z: 0.338}
+  m_LocalPosition: {x: -0.673, y: 0.123, z: 0.338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -418,21 +434,21 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 3
   m_Mass: 1
-  m_ParentAnchorPosition: {x: -0.673, y: 0.12800002, z: 0.33799997}
+  m_ParentAnchorPosition: {x: -0.673, y: 0.123000026, z: 0.33799997}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
   m_ArticulationJointType: 1
-  m_LinearX: 2
+  m_LinearX: 1
   m_LinearY: 0
   m_LinearZ: 0
   m_SwingY: 2
   m_SwingZ: 2
   m_Twist: 2
   m_XDrive:
-    lowerLimit: 0
-    upperLimit: 0
+    lowerLimit: 0.3
+    upperLimit: -0.16
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
@@ -524,6 +540,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508788886}
   m_Mesh: {fileID: 2962957429374383584, guid: f01fab0dded94cf4989b5543f70c9f87, type: 3}
+--- !u!114 &508788892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508788886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a43a1f7f0f85040a63f1a265946813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationState: 0
+  speed: 300
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +813,7 @@ GameObject:
   - component: {fileID: 939510881}
   - component: {fileID: 939510880}
   - component: {fileID: 939510879}
+  - component: {fileID: 939510883}
   m_Layer: 0
   m_Name: Joint1
   m_TagString: Untagged
@@ -827,10 +858,10 @@ ArticulationBody:
   m_LinearZ: 2
   m_SwingY: 2
   m_SwingZ: 2
-  m_Twist: 2
+  m_Twist: 1
   m_XDrive:
-    lowerLimit: 0
-    upperLimit: 0
+    lowerLimit: -180
+    upperLimit: 180
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
@@ -922,6 +953,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939510877}
   m_Mesh: {fileID: -3270484040423852615, guid: f01fab0dded94cf4989b5543f70c9f87, type: 3}
+--- !u!114 &939510883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939510877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationState: 0
+  speed: 300
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1064,7 @@ GameObject:
   - component: {fileID: 1015426434}
   - component: {fileID: 1015426433}
   - component: {fileID: 1015426432}
+  - component: {fileID: 1015426436}
   m_Layer: 0
   m_Name: Joint3
   m_TagString: Untagged
@@ -1063,9 +1109,9 @@ ArticulationBody:
   m_LinearZ: 2
   m_SwingY: 2
   m_SwingZ: 2
-  m_Twist: 2
+  m_Twist: 1
   m_XDrive:
-    lowerLimit: 0
+    lowerLimit: -180
     upperLimit: 0
     stiffness: 100000
     damping: 100
@@ -1158,3 +1204,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015426430}
   m_Mesh: {fileID: 5342008675400417196, guid: f01fab0dded94cf4989b5543f70c9f87, type: 3}
+--- !u!114 &1015426436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015426430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationState: 0
+  speed: 300

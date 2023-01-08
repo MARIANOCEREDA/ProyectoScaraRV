@@ -3,11 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RotationDirection { None = 0, Positive = 1, Negative = -1 };
+public enum MovementDirection { None = 0, Positive = 1, Negative = -1 };
 
-public class ArticulatorJointController : MonoBehaviour
+public class ArticulationJointController : MonoBehaviour
 {
-    public RotationDirection rotationState = RotationDirection.None;
+    /*
+     *  ArticulationJointController
+     *  
+     *  It controls the movements of every joint.
+     *  
+     *  Documentation about Articulation Body element: https://docs.unity3d.com/Manual/class-ArticulationBody.html 
+     * **/
+    public MovementDirection rotationState = MovementDirection.None;
     public float speed = 300.0f;
 
     private ArticulationBody articulation;
@@ -22,7 +29,7 @@ public class ArticulatorJointController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (rotationState != RotationDirection.None)
+        if (rotationState != MovementDirection.None)
         {
             float rotationChange = (float)rotationState * speed * Time.fixedDeltaTime;
             float rotationGoal = CurrentPrimaryAxisRotation() + rotationChange;
@@ -48,5 +55,7 @@ public class ArticulatorJointController : MonoBehaviour
         drive.target = primaryAxisRotation;
         articulation.xDrive = drive;
     }
+
+
 
 }
