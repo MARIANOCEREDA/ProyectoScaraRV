@@ -286,7 +286,7 @@ ArticulationBody:
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
-    target: 100
+    target: 0
     targetVelocity: 0
   m_YDrive:
     lowerLimit: 0
@@ -386,8 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationState: 0
-  speed: 300
+  movementState: 0
 --- !u!1 &508788886
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +416,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508788886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.673, y: 0.123, z: 0.338}
+  m_LocalPosition: {x: -0.673, y: 0.147, z: 0.338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -434,7 +433,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 3
   m_Mass: 1
-  m_ParentAnchorPosition: {x: -0.673, y: 0.123000026, z: 0.33799997}
+  m_ParentAnchorPosition: {x: -0.673, y: 0.14699996, z: 0.33799997}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -452,13 +451,13 @@ ArticulationBody:
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
-    target: 0.15
+    target: 0
     targetVelocity: 0
   m_YDrive:
-    lowerLimit: 0
-    upperLimit: 0
-    stiffness: 0
-    damping: 0
+    lowerLimit: 0.15
+    upperLimit: -0.09
+    stiffness: 100000
+    damping: 100
     forceLimit: 3.4028235e+38
     target: 0
     targetVelocity: 0
@@ -549,11 +548,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 508788886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4a43a1f7f0f85040a63f1a265946813, type: 3}
+  m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationState: 0
-  speed: 300
+  movementState: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,6 +659,7 @@ GameObject:
   - component: {fileID: 929955718}
   - component: {fileID: 929955717}
   - component: {fileID: 929955716}
+  - component: {fileID: 929955721}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -800,6 +799,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &929955721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929955715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7d53e8ab18b844d96362395f4e6e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joints:
+  - inputAxis: Joint1
+    robotPart: {fileID: 939510877}
+  - inputAxis: Joint2
+    robotPart: {fileID: 390056599}
+  - inputAxis: Joint3
+    robotPart: {fileID: 1015426430}
+  - inputAxis: EndEffector
+    robotPart: {fileID: 508788886}
 --- !u!1 &939510877
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,7 +885,7 @@ ArticulationBody:
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
-    target: -20
+    target: 0
     targetVelocity: 0
   m_YDrive:
     lowerLimit: 0
@@ -965,8 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationState: 0
-  speed: 300
+  movementState: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,7 +1135,7 @@ ArticulationBody:
     stiffness: 100000
     damping: 100
     forceLimit: 3.4028235e+38
-    target: -50
+    target: 0
     targetVelocity: 0
   m_YDrive:
     lowerLimit: 0
@@ -1216,5 +1235,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3b3a83a32e27947a40689524cb3404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationState: 0
-  speed: 300
+  movementState: 0
+--- !u!1 &1403244958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403244959}
+  m_Layer: 0
+  m_Name: MicrocontrollerInterface
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1403244959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403244958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.99569964, y: 0.92396855, z: 0.65652484}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

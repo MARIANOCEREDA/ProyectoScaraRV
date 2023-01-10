@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum MovementDirection { None = 0, Positive = 1, Negative = -1 };
@@ -14,9 +15,8 @@ public class ArticulationJointController : MonoBehaviour
      *  
      *  Documentation about Articulation Body element: https://docs.unity3d.com/Manual/class-ArticulationBody.html 
      * **/
-    public MovementDirection rotationState = MovementDirection.None;
-    public float speed = 300.0f;
-
+    public MovementDirection movementState = MovementDirection.None;
+    private float movementSpeed = 300.0f;
     private ArticulationBody articulation;
 
 
@@ -29,33 +29,37 @@ public class ArticulationJointController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (rotationState != MovementDirection.None)
-        {
-            float rotationChange = (float)rotationState * speed * Time.fixedDeltaTime;
-            float rotationGoal = CurrentPrimaryAxisRotation() + rotationChange;
-            RotateTo(rotationGoal);
-        }
-
-
+        float change = (float)movementState * movementSpeed * Time.fixedDeltaTime;
+        float goal = CurrentPrimaryAxisRotation() + change;
+        MoveTo(goal);
     }
 
+    // Setters
+
+    public void SetMovementSpeed(List<float> targetsList)
+    {
+        articulation.SetDriveTargetVelocities(targetsList);
+    }
+
+    public void SetMovementTargets(List<float> targetsList)
+    {
+        articulation.SetDriveTargets(targetsList);
+        Debug.Log("Target Position Y: " + targetsList.ToArray()[1]);
+    }
 
     // MOVEMENT HELPERS
 
     float CurrentPrimaryAxisRotation()
     {
-        float currentRotationRads = articulation.jointPosition[0];
-        float currentRotation = Mathf.Rad2Deg * currentRotationRads;
-        return currentRotation;
+        float currentRads = articulation.jointPosition[0];
+        float currentMovement = Mathf.Rad2Deg * currentRads;
+        return currentMovement;
     }
 
-    void RotateTo(float primaryAxisRotation)
+    public void MoveTo(float goal)
     {
         var drive = articulation.xDrive;
-        drive.target = primaryAxisRotation;
+        drive.target = goal;
         articulation.xDrive = drive;
     }
-
-
-
 }
