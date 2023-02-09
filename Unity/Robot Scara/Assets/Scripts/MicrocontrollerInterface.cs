@@ -1,33 +1,54 @@
-using UnityEngine;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO.Ports;
-using System.Threading;
-using System.IO;
-using UnityEditor.Experimental.GraphView;
-
-/*
- This module manages the interface between the Microcontroller and
-the Unity VR model.
-
-author: Mariano Cereda and Facundo Cardenas
- */
+using UnityEngine;
 
 public class MicrocontrollerInterface : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    public GameObject robot;
+    ScaraController scaraController;
+    public float[] speeds;
+    public int moveJointNumber = 2;
+    public int target;
 
     // Update is called once per frame
+
+    private void Start()
+    {
+        scaraController = robot.GetComponent<ScaraController>();
+    }
     void Update()
     {
-        
+        SetJointSpeed(scaraController.joints[moveJointNumber].robotPart, speeds[1]);
+        SetJointTarget(scaraController.joints[moveJointNumber].robotPart, target);
+        MovementDirection direction = GetRotationDirection(target);
+        scaraController.MoveJoint(moveJointNumber, direction);
+    }
+
+    void SetJointSpeed(GameObject robotPart, float speed)
+    {
+        ArticulationJointController jointController = robotPart.GetComponent<ArticulationJointController>();
+        jointController.SetArticulationSpeed(speed);
+    }
+
+    void SetJointTarget(GameObject robotPart, float target)
+    {
+        ArticulationJointController jointController = robotPart.GetComponent<ArticulationJointController>();
+        jointController.SetArticulationTarget(target);
+    }
+
+    static MovementDirection GetRotationDirection(int inputVal)
+    {
+        if (inputVal > 0)
+        {
+            return MovementDirection.Positive;
+        }
+        else if (inputVal < 0)
+        {
+            return MovementDirection.Negative;
+        }
+        else
+        {
+            return MovementDirection.None;
+        }
     }
 }
-
-
-

@@ -15,59 +15,32 @@ public class ScaraController : MonoBehaviour
     }
     public Joint[] joints;
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-        // Assign movement direction to the joints
-        float[] target = { 20, -50, -80, 0.11f };
-        float[] jointTargets = { 0, 0, 0 };
-        List<float> jointTargetsList = new List<float>(jointTargets);
-        MovementDirection movementDirection;
-
-        // Move Joints
-        movementDirection = MovementDirection.Negative;
-        for (int i = 0; i < joints.Length - 1; i++)
-        {
-            float inputVal = Input.GetAxis(joints[i].inputAxis);
-            if (Mathf.Abs(inputVal) > 0)
-            {
-                MovementDirection direction = movementDirection;
-                MoveJoint(i, direction, jointTargetsList);
-                return;
-            }
-        }
-
-    }
-
-
     // CONTROL
 
-    public void StopAllJointMovement(List<float> target)
+    public void StopAllJointMovement()
     {
-        for (int i = 0; i < joints.Length - 1; i++)
+        for (int i = 0; i < joints.Length; i++)
         {
             GameObject robotPart = joints[i].robotPart;
-            UpdateMovementState(MovementDirection.None, robotPart, target) ;
+            UpdateMovementState(MovementDirection.None, robotPart);
         }
     }
 
-    public void MoveJoint(int jointIndex, MovementDirection direction, List<float> target)
+    public void MoveJoint(int jointIndex, MovementDirection direction)
     {
-        //StopAllJointMovement(target);
+        Debug.Log("Moving joint number ... " + jointIndex);
+        StopAllJointMovement();
         Joint joint = joints[jointIndex];
-        UpdateMovementState(direction, joint.robotPart, target);
+        UpdateMovementState(direction, joint.robotPart);
     }
 
     // HELPERS
 
-    static void UpdateMovementState(MovementDirection direction, GameObject robotPart, List<float> target)
+    static void UpdateMovementState(MovementDirection direction, GameObject robotPart)
     {
+        Debug.Log("Updating robot part movement ... " + robotPart);
         ArticulationJointController jointController = robotPart.GetComponent<ArticulationJointController>();
-        //jointController.SetMovementTargets(target);
         jointController.movementState = direction;
+        jointController.ExecuteMovement();
     }
 }
