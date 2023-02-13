@@ -6,12 +6,11 @@
 #define MPU2    0x69			// direccion I2C con AD0 en HIGH
 
 
-SoftwareSerial mySerial(7, 8); // RX, TX
+SoftwareSerial bluetoothSerial(7, 8); // RX, TX creamos la comunicación serial con el modulo bluetooth
 Simple_MPU6050 mpu1;				// crea objeto con nombre mpu1
 Simple_MPU6050 mpu2;				// crea objeto con nombre mpu2
 
-char myChar ;
-float xprev1;
+float xprev1;  // angulo previo, servira para futuros calculos
 float xprev2;
 
 // #define OFFSETS  -5114,     484,    1030,      46,     -14,       6  // Colocar valores personalizados
@@ -37,12 +36,12 @@ void obtener_y_mostrar_valores1 (int16_t *gyro, int16_t *accel, int32_t *quat, u
     Serial.printfloatx(F("Yaw 1")  , xyz1[0], 9, 4, F(",   "));  // muestra en monitor serie rotacion de eje Z, yaw
     Serial.printfloatx(F("Pitch 1"), xyz1[1], 9, 4, F(",   "));  // muestra en monitor serie rotacion de eje Y, pitch
     Serial.printfloatx(F("Roll 1") , xyz1[2], 9, 4, F(",   "));  // muestra en monitor serie rotacion de eje X, roll
-    Serial.println();				// salto de linea
+    Serial.println();				// salto de linea    
     if ((xyz1[0] >= xprev1 + 2) | (xyz1[0] <= xprev1 - 2)){
        xprev1=xyz1[0];
        analogWrite(3, 120);
-       mySerial.print(xyz1[0]);
-       mySerial.println();
+       bluetoothSerial.print("1" + (String)xyz1[0]);
+       bluetoothSerial.println();
     }
   }
 }
@@ -64,8 +63,8 @@ void obtener_y_mostrar_valores2 (int16_t *gyro, int16_t *accel, int32_t *quat, u
     if ((xyz2[0] >= xprev2 + 2) | (xyz2[0] <= xprev2 - 2)){
        xprev2=xyz2[0];
        analogWrite(3, 120);
-       mySerial.print(xyz2[0]);
-       mySerial.println();
+       bluetoothSerial.print("2" + (String)xyz2[0]);
+       bluetoothSerial.println();
     }  
   }
 }
@@ -82,8 +81,8 @@ void setup() {
   
   Serial.begin(115200);			// inicializacion de monitor serie a 115200 bps
   Serial.println(F("Inicio:"));		// muestra texto estatico
-  mySerial.begin(9600);
-  mySerial.println("Conectado");
+  bluetoothSerial.begin(9600);
+  bluetoothSerial.println("Conectado");
 #ifdef OFFSETS								// si existen OFFSETS
   Serial.println(F("Usando Offsets predefinidos"));			// texto estatico
   mpu1.SetAddress(MPU1).load_DMP_Image(OFFSETS);	// inicializacion de sensor
@@ -109,13 +108,4 @@ void loop() {
 
   mpu1.dmp_read_fifo();		// funcion que evalua si existen datos nuevos en el sensor y llama a funcion mostrar_valores si es el caso
   mpu2.dmp_read_fifo();
-  while(mySerial.available()){
-    myChar = mySerial.read();
-    Serial.println(myChar);
-  }
-
-  while(Serial.available()){
-    myChar = Serial.read();
-    mySerial.print(myChar);
-  }
 }	
