@@ -58,7 +58,7 @@ public class BluetoothManager : MonoBehaviour
                 _serialPort.Open();
                 setConfiguration();
             }
-            Debug.Log("Connected to Serial PortÇ: " + port );
+            Debug.Log("Connected to Serial Portï¿½: " + port );
         }
         catch (Exception err)
         {
