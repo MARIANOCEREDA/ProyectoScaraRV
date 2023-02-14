@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.IO;
 using UnityEngine;
 
-public class BluetoothManager
+public class BluetoothManager : MonoBehaviour
 {
     /* BluetoothManager
      
@@ -16,17 +16,41 @@ public class BluetoothManager
 
      */
 
-    private int BAUDRATE = 9600;
-    private int READ_TIMEOUT = 100;
-    private int WRITE_TIMEOUT = 100;
-    private string port = "COM05";
+    private int BAUDRATE = 115200;
+    private int READ_TIMEOUT = 10000;
+    private int WRITE_TIMEOUT = 10000;
+    private string port = "COM3";
     private string deviceName = "btDevice";
     private SerialPort _serialPort;
+    string message;
+
+    void Start()
+    {
+        Connect();
+    }
+    
+    void Update()
+    {
+        try
+        {
+            if (_serialPort.IsOpen)
+            {
+                message = _serialPort.ReadLine();
+                _serialPort.BaseStream.Flush();
+                Debug.Log("Message from Serial: " + message + "\n");
+            }
+        }
+        catch(Exception e) 
+        {
+            Debug.LogError("Error when trying to read from Serial Port: "+ port + " - " + e);
+        }
+    }
 
     void Connect()
     {
         try
         {
+            Debug.Log("Connecting to Bluetooth via Serial Port:  " + deviceName + "...");
             _serialPort = new SerialPort(port, BAUDRATE, Parity.None, 8, StopBits.One);
 
             if (!_serialPort.IsOpen)
@@ -34,6 +58,7 @@ public class BluetoothManager
                 _serialPort.Open();
                 setConfiguration();
             }
+            Debug.Log("Connected to Serial Port«: " + port );
         }
         catch (Exception err)
         {
@@ -68,5 +93,4 @@ public class BluetoothManager
         _serialPort.WriteTimeout = WRITE_TIMEOUT;
         _serialPort.Handshake = Handshake.None;
     }
-
 }

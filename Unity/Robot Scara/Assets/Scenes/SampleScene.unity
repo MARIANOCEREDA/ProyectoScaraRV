@@ -219,7 +219,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &390056599
 GameObject:
@@ -279,7 +279,7 @@ ArticulationBody:
   m_LinearZ: 2
   m_SwingY: 2
   m_SwingZ: 2
-  m_Twist: 1
+  m_Twist: 2
   m_XDrive:
     lowerLimit: -100
     upperLimit: 100
@@ -417,12 +417,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6520f7bdd7f184596bdad7b34ce190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  robot: {fileID: 929955715}
-  speeds:
-  - 300
-  - 300
-  - 0.2
-  moveJointNumber: 0
+  robot: {fileID: 0}
+  speeds: []
+  moveJointNumber: 2
   target: 0
 --- !u!4 &464396208
 Transform:
@@ -437,7 +434,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &508788886
 GameObject:
@@ -865,6 +862,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joints:
+  - inputAxis: 
+    robotPart: {fileID: 0}
   - inputAxis: Joint1
     robotPart: {fileID: 390056599}
   - inputAxis: Joint2
@@ -953,7 +952,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1015426430
 GameObject:
@@ -1013,7 +1012,7 @@ ArticulationBody:
   m_LinearZ: 2
   m_SwingY: 2
   m_SwingZ: 2
-  m_Twist: 1
+  m_Twist: 2
   m_XDrive:
     lowerLimit: -180
     upperLimit: 0
@@ -1152,7 +1151,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1403244960
 MonoBehaviour:
@@ -1171,3 +1170,34 @@ MonoBehaviour:
   - 300
   - 300
   - 0.2
+--- !u!1 &1645729775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1645729777}
+  m_Layer: 0
+  m_Name: BluetoothInterface
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1645729777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645729775}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.9694145, y: 2.1176934, z: -1.3873912}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

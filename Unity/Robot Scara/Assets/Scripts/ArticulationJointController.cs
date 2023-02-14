@@ -33,26 +33,23 @@ public class ArticulationJointController : MonoBehaviour
         if (movementState != MovementDirection.None)
         {
             Debug.Log("Joint position: " + articulation.jointPosition[0]);
-            if (articulation.jointPosition[0] <= target)
+            float change;
+            float goal;
+            switch (articulation.jointType)
             {
-                float change;
-                float goal;
-                switch (articulation.jointType)
-                {
-                    case ArticulationJointType.RevoluteJoint:
-                        change = (float)movementState * rotationSpeed * Time.fixedDeltaTime;
-                        goal = CurrentPrimaryAxisRotation() + change;
-                        MoveTo(goal);
-                        break;
+                case ArticulationJointType.RevoluteJoint:
+                    change = (float)movementState * rotationSpeed * Time.fixedDeltaTime;
+                    goal = CurrentPrimaryAxisRotation() + change;
+                    MoveTo(goal);
+                    break;
 
-                    case ArticulationJointType.PrismaticJoint:
-                        change = (float)movementState * translationSpeed * Time.fixedDeltaTime;
-                        goal = CurrentPrimaryAxisTranslation() + change;
-                        MoveTo(goal);
-                        break;
+                case ArticulationJointType.PrismaticJoint:
+                    change = (float)movementState * translationSpeed * Time.fixedDeltaTime;
+                    goal = CurrentPrimaryAxisTranslation() + change;
+                    MoveTo(goal);
+                    break;
 
-                    default: break;
-                }
+                default: break;
             }
         }
     }

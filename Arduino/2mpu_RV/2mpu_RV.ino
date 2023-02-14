@@ -108,4 +108,5 @@ void loop() {
 
   mpu1.dmp_read_fifo();		// funcion que evalua si existen datos nuevos en el sensor y llama a funcion mostrar_valores si es el caso
   mpu2.dmp_read_fifo();
-}	
+}
+
