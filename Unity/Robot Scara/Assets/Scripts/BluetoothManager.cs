@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.IO;
 using UnityEngine;
 
-public class BluetoothManager
+public class BluetoothManager : MonoBehaviour
 {
     /* BluetoothManager
      
@@ -16,7 +16,7 @@ public class BluetoothManager
 
      */
 
-    private int BAUDRATE = 9600;
+    private int BAUDRATE = 115200;
     private int READ_TIMEOUT = 100;
     private int WRITE_TIMEOUT = 100;
     private string port = "COM05";

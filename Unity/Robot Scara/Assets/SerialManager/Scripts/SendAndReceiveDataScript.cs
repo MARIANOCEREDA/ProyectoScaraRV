@@ -11,9 +11,9 @@ public class SendAndReceiveDataScript : MonoBehaviour
        SerialManagerScript.WhenReceiveDataCall  += ReceiveData;
     }
 
-    private void ReceiveData(string incomingS)
+    private void ReceiveData(string incomingString)
     {
-        int.TryParse(incomingS, out pot); // transformamos la información de llegada en entero 
+        int.TryParse(incomingString, out pot); // transformamos la información de llegada en entero 
     }
     // Update is called once per frame
     void Update()

@@ -20,7 +20,7 @@ public class SerialManagerScript : MonoBehaviour
 
     void OnEnable()
     {
-        port = new SerialPort(com, 9600); //1
+        port = new SerialPort(com, 115200); //1
         port.Open();//1
         port.DiscardOutBuffer(); //1
         port.DiscardInBuffer(); //1
