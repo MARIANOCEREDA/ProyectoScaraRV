@@ -19,7 +19,7 @@ public class BluetoothManager : MonoBehaviour
     private int BAUDRATE = 115200;
     private int READ_TIMEOUT = 10000;
     private int WRITE_TIMEOUT = 10000;
-    private string port = "COM3";
+    private string port = "COM5";
     private string deviceName = "btDevice";
     private SerialPort _serialPort;
     string message;
