@@ -27,6 +27,8 @@ void setup()
 {
   //pinMode(3, OUTPUT); // para el vibrador
   Serial.begin(115200);
+  //bluetoothSerial.begin(9600);
+  bluetoothSerial.println("Conectado");
 
   // Inicializamos ambos MPU6050
   while(!mpu1.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x68) | !mpu2.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x69))
