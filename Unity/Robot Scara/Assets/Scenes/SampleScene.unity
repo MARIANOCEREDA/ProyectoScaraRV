@@ -1195,3 +1195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d12056537280c4ca7df0707cc2126d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robot: {fileID: 929955715}
+  speeds:
+  - 300
+  - 300
+  - 0.2
