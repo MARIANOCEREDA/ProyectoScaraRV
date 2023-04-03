@@ -14,6 +14,9 @@ float timeStep = 0.01;
 // angulo previo, servira para futuros calculos
 float xprev1; 
 float xprev2;
+String  angulo1="0";
+String  angulo2="0";
+String  efectfin="0";
 
 // Pitch, Roll and Yaw
 float pitch1 = 0;
@@ -22,6 +25,7 @@ float yaw1 = 0;
 float pitch2 = 0;
 float roll2 = 0;
 float yaw2 = 0;
+
 
 void setup() 
 {
@@ -56,22 +60,40 @@ void loop()
   //roll1 = roll1 + norm1.XAxis * timeStep;
   yaw1 = yaw1 + norm1.ZAxis * timeStep;
   yaw2 = yaw2 + norm2.ZAxis * timeStep;
-  if ((yaw1 >= xprev1 + 2) | (yaw1 <= xprev1 - 2)){
-       xprev1=yaw1;
-       //analogWrite(3, 120);
-       bluetoothSerial.print("1" + (String)yaw1);
-       bluetoothSerial.println();
-  } 
+
+  //Analizamos angulos previos y luego mandamos la info a unity
+  if ((yaw1 >= xprev1 + 2)){
+    xprev1=yaw1;
+    angulo1="1";
+    //analogWrite(3, 120);
+  } else if (yaw1 <= xprev1 - 2) {
+    xprev1=yaw1;
+    angulo1="-1";
+  } else{
+    angulo1="0";  
+  }
+  if ((yaw2 >= xprev2 + 2)){
+    xprev2=yaw2;
+    angulo2="1";
+    //analogWrite(3, 120);
+  } else if (yaw2 <= xprev2 - 2) {
+    xprev2=yaw2;
+    angulo2="-1";
+  } else{
+    angulo2="0";  
+  }
+/*  
   if ((yaw2 >= xprev2 + 2) | (yaw2 <= xprev2 - 2)){
        xprev2=yaw2;
        //analogWrite(3, 120);
        bluetoothSerial.print("2" + (String)yaw2);
        bluetoothSerial.println();
   }  
+*/  
 
-  // Output rpy
-  //Serial.print(" Pitch1 = "); Serial.print(pitch1); 
-  //Serial.print(" Roll1 = ");  Serial.print(roll1);  
+  bluetoothSerial.print(angulo1 + ";" + angulo2 + ";" + efectfin);
+  bluetoothSerial.println();
+  // Output rpy 
   Serial.print(" Yaw 1 = "); Serial.println(yaw1);
   Serial.print(" Yaw 2 = "); Serial.println(yaw2);
 
