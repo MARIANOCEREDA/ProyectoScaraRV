@@ -1146,6 +1146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuPanel: {fileID: 1139526293}
+  MainMenuPanel: {fileID: 0}
+  restarted: 0
 --- !u!1 &407263019
 GameObject:
   m_ObjectHideFlags: 0
@@ -5092,6 +5094,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenuPanel: {fileID: 1139526293}
+  MainMenuPanel: {fileID: 464027339}
+  restarted: 0
 --- !u!114 &1450553324
 MonoBehaviour:
   m_ObjectHideFlags: 0

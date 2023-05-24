@@ -46,7 +46,7 @@ public class BluetoothManager : MonoBehaviour
                     GameObject singletonObject = new GameObject();
                     instance = singletonObject.AddComponent<BluetoothManager>();
                     singletonObject.name = typeof(BluetoothManager).ToString();
-                    DontDestroyOnLoad(singletonObject);
+                    //DontDestroyOnLoad(singletonObject);
                 }
 
             }
@@ -62,11 +62,11 @@ public class BluetoothManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
+        /*else
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
+        }*/
         //robot = GameObject.Find("Robot");
     }
 

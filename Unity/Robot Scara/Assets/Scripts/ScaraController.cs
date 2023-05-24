@@ -33,7 +33,7 @@ public class ScaraController : MonoBehaviour
                     GameObject singletonObject = new GameObject();
                     instance = singletonObject.AddComponent<ScaraController>();
                     singletonObject.name = typeof(ScaraController).ToString();
-                    DontDestroyOnLoad(singletonObject);
+                    //DontDestroyOnLoad(singletonObject);
                 }
 
             }
@@ -49,11 +49,11 @@ public class ScaraController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
+        /*else
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
-        }
+        }*/
     }
 
     private void Start()
