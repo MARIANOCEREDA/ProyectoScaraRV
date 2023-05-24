@@ -30,7 +30,6 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1.0f;
-        restarted = true;
         SceneManager.LoadScene("SampleScene");
         MainMenuPanel.SetActive(false);
 

@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     //public GameObject robot;
 
     [SerializeField] public GameObject MainMenuPanel;
+    [SerializeField] public GameObject ConfigurationMenuPanel;
     public void StartGame()
     {
         MainMenuPanel.SetActive(false);
@@ -25,10 +26,9 @@ public class MainMenu : MonoBehaviour
 
     public void SetConfigurations()
     {
-        // Set joint limits
-        for (int i = 0; i < ScaraController.Instance.GetNRotationJoints() ; i++)
-        {
-            ScaraController.Instance.SetProperties(ScaraController.Instance.joints[i].robotPart, -90f, 90f);
-        }
+        MainMenuPanel.SetActive(false);
+        ConfigurationMenuPanel.SetActive(true);
+        Debug.Log("Setting configurations ...");
     }
+
 }
