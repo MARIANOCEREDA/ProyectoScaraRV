@@ -13,24 +13,27 @@ author: Mariano Cereda and Facundo Cardenas
 
 public class KeyBoardInterface : MonoBehaviour
 {
-    public GameObject robot;
     public float[] speeds;
 
     void Update()
     {
-        ScaraController scaraController = robot.GetComponent<ScaraController>();
-        for (int i = 0; i < scaraController.joints.Length; i++)
+
+        if (ScaraController.Instance != null)
         {
-            float inputVal = Input.GetAxis(scaraController.joints[i].inputAxis);
-            SetJointSpeed(scaraController.joints[i].robotPart, speeds[i]);
-            if (Mathf.Abs(inputVal) > 0)
+            //ScaraController scaraController = robot.GetComponent<ScaraController>();
+            for (int i = 0; i < ScaraController.Instance.joints.Length; i++)
             {
-                MovementDirection direction = GetRotationDirection(inputVal);
-                scaraController.MoveJoint(i, direction);
-                return;
+                float inputVal = Input.GetAxis(ScaraController.Instance.joints[i].inputAxis);
+                SetJointSpeed(ScaraController.Instance.joints[i].robotPart, speeds[i]);
+                if (Mathf.Abs(inputVal) > 0)
+                {
+                    MovementDirection direction = GetRotationDirection(inputVal);
+                    ScaraController.Instance.MoveJoint(i, direction);
+                    return;
+                }
             }
+            ScaraController.Instance.StopAllJointMovement();
         }
-        scaraController.StopAllJointMovement();
     }
 
     // HELPERS

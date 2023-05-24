@@ -5,6 +5,9 @@ using System.IO.Ports;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.PackageManager;
+
+public enum BTConnectionStatus { CONNECTED, DISCONNECTED }
 
 public class BluetoothManager : MonoBehaviour
 {
@@ -16,7 +19,8 @@ public class BluetoothManager : MonoBehaviour
     Usage example: https://www.c-sharpcorner.com/UploadFile/eclipsed4utoo/communicating-with-serial-port-in-C-Sharp/
 
      */
-    public GameObject robot;
+
+    private BTConnectionStatus status;
     private int BAUDRATE = 115200;
     private int READ_TIMEOUT = 10000;
     private int WRITE_TIMEOUT = 10000;
@@ -26,6 +30,45 @@ public class BluetoothManager : MonoBehaviour
     string message;
     public float[] speeds;
     float[] inAngles = new float[3];
+
+    private static BluetoothManager instance;
+
+    public static BluetoothManager Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<BluetoothManager>();
+
+                if (instance == null )
+                {
+                    GameObject singletonObject = new GameObject();
+                    instance = singletonObject.AddComponent<BluetoothManager>();
+                    singletonObject.name = typeof(BluetoothManager).ToString();
+                    DontDestroyOnLoad(singletonObject);
+                }
+
+            }
+            return instance;
+        }
+    }
+
+
+    private void Awake()
+    {
+        // Ensure that only one instance of the class exists
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        //robot = GameObject.Find("Robot");
+    }
 
     private void Start()
     {
@@ -42,26 +85,29 @@ public class BluetoothManager : MonoBehaviour
                 message = _serialPort.ReadLine();
                 _serialPort.BaseStream.Flush();
                 Debug.Log("Message from Serial: " + message + "\n");
-                parseIncomingMessage(message);
+                parseIncomingMessage(message.ToString());
             }
         }
-        catch(Exception e) 
+        catch(Exception e)
         {
             Debug.LogError("Error when trying to read from Serial Port: "+ port + " - " + e);
         }
 
-        ScaraController scaraController = robot.GetComponent<ScaraController>();
-        for (int i = 0; i < scaraController.joints.Length; i++)
+        if (ScaraController.Instance != null)
         {
-            SetJointSpeed(scaraController.joints[i].robotPart, speeds[i]);
-            if (inAngles[i] != 0)
+            //ScaraController scaraController = robot.GetComponent<ScaraController>();
+            for (int i = 0; i < ScaraController.Instance.joints.Length; i++)
             {
-                MovementDirection directionArm = GetRotationDirection(inAngles[i]);
-                scaraController.MoveJoint(i, directionArm);
-            }
-            else
-            {
-                scaraController.MoveJoint(i, MovementDirection.None);
+                SetJointSpeed(ScaraController.Instance.joints[i].robotPart, speeds[i]);
+                if (inAngles[i] != 0)
+                {
+                    MovementDirection directionArm = GetRotationDirection(inAngles[i]);
+                    ScaraController.Instance.MoveJoint(i, directionArm);
+                }
+                else
+                {
+                    ScaraController.Instance.MoveJoint(i, MovementDirection.None);
+                }
             }
         }
         return;
@@ -101,12 +147,12 @@ public class BluetoothManager : MonoBehaviour
                 _serialPort.Open();
                 setConfiguration();
             }
-            Debug.Log("Connected to Serial Port�: " + port);
+            Debug.Log("Connected to Serial Port: " + port);
         }
         catch (Exception err)
         {
             Debug.Log("Error when trying to Open Serial Communication: " + err);
-            throw err;
+            //throw err;
         }
     }
     public void OnDisconnect()
@@ -129,6 +175,24 @@ public class BluetoothManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+       OnDisconnect();
+    }
+
+    public BTConnectionStatus getConnectionStatus()
+    {
+        if (_serialPort.IsOpen)
+        {
+            status = BTConnectionStatus.CONNECTED;
+        }
+        else
+        {
+            status = BTConnectionStatus.DISCONNECTED;
+        }
+        return status;
+    }
+
     void setConfiguration()
     {
         _serialPort.ReadTimeout = READ_TIMEOUT;
@@ -146,6 +210,19 @@ public class BluetoothManager : MonoBehaviour
             inAngles[2] = float.Parse(angleValues[2]);
 
             Debug.Log("Angles {" + inAngles[0] + " ; " + inAngles[1] + " ; " + inAngles[2] + "}");
+        }
+    }
+
+    public void sendMessage(string message)
+    {
+        if (_serialPort != null && _serialPort.IsOpen)
+        {
+            _serialPort.WriteLine(message);
+            _serialPort.BaseStream.Flush();
+        }
+        else
+        {
+            Debug.Log("Serial Port " + port + " is not Open.");
         }
     }
 }

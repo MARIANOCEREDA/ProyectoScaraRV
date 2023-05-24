@@ -5,6 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
+/**
+ * Singleton instance of the robot.
+ **/
 public class ScaraController : MonoBehaviour
 {
     [System.Serializable]
@@ -14,7 +17,49 @@ public class ScaraController : MonoBehaviour
         public GameObject robotPart;
     }
     public Joint[] joints;
+    private int N_ROTATION_JOINTS = 2;
 
+    private static ScaraController instance;
+    public static ScaraController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<ScaraController>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject();
+                    instance = singletonObject.AddComponent<ScaraController>();
+                    singletonObject.name = typeof(ScaraController).ToString();
+                    DontDestroyOnLoad(singletonObject);
+                }
+
+            }
+            return instance;
+        }
+    }
+
+
+    private void Awake()
+    {
+        // Ensure that only one instance of the class exists
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        //DontDestroyOnLoad(this.gameObject);
+    }
     // CONTROL
 
     public void StopAllJointMovement()
@@ -43,4 +88,24 @@ public class ScaraController : MonoBehaviour
         jointController.movementState = direction;
         jointController.ExecuteMovement();
     }
+
+    public void SetProperties(GameObject robotPart, float lowerLimit = -90.0f, float upperLimit = 90.0f)
+    {
+        Debug.Log("Setting properties ... " + robotPart);
+        ArticulationBody joint = robotPart.GetComponent<ArticulationBody>();
+        joint.linearLockX = ArticulationDofLock.LimitedMotion;
+        joint.linearLockY = ArticulationDofLock.LimitedMotion;
+
+        var jointDrive = joint.xDrive;
+        jointDrive.lowerLimit = lowerLimit;
+        jointDrive.upperLimit = upperLimit;
+
+        joint.xDrive = jointDrive;
+    }
+
+    public int GetNRotationJoints()
+    {
+        return N_ROTATION_JOINTS;
+    }
+
 }

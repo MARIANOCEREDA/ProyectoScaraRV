@@ -15,7 +15,7 @@ public class ArticulationJointController : MonoBehaviour
      *  Documentation about Articulation Body element: https://docs.unity3d.com/Manual/class-ArticulationBody.html 
      * **/
     public MovementDirection movementState = MovementDirection.None;
-    private float rotationSpeed = 300.0f;
+    private float rotationSpeed = 10.0f;
     private float translationSpeed = 0.2f;
     public float target = 0;
     private ArticulationBody articulation;
@@ -51,6 +51,7 @@ public class ArticulationJointController : MonoBehaviour
 
                 default: break;
             }
+
         }
     }
 
