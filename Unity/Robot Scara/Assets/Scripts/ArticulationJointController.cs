@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ScaraController;
 
 public enum MovementDirection { None = 0, Positive = 1, Negative = -1 };
 
@@ -91,6 +92,19 @@ public class ArticulationJointController : MonoBehaviour
     {
         var drive = articulation.xDrive;
         drive.target = goal;
+        articulation.xDrive = drive;
+    }
+
+    public void SetLimits(float lowerLimit, float upperLimit)
+    {
+        Debug.Log("Setting limits to: " + lowerLimit + " : " + upperLimit);
+        articulation.linearLockX = ArticulationDofLock.LimitedMotion;
+        articulation.linearLockY = ArticulationDofLock.LimitedMotion;
+
+        var drive = articulation.xDrive;
+        drive.upperLimit = upperLimit;
+        drive.lowerLimit = lowerLimit;
+
         articulation.xDrive = drive;
     }
 }

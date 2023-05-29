@@ -8,13 +8,8 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] public GameObject PauseMenuPanel;
     [SerializeField] public GameObject MainMenuPanel;
-    public bool restarted;
 
     // Update is called once per frame
-    private void Start()
-    {
-        restarted = false;
-    }
     public void Pause()
     {
         PauseMenuPanel.SetActive(true);

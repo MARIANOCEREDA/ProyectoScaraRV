@@ -89,7 +89,7 @@ public class ScaraController : MonoBehaviour
         jointController.ExecuteMovement();
     }
 
-    public void SetProperties(GameObject robotPart, float lowerLimit = -90.0f, float upperLimit = 90.0f)
+    /*public void SetProperties(GameObject robotPart, float lowerLimit = -90.0f, float upperLimit = 90.0f)
     {
         Debug.Log("Setting properties ... " + robotPart);
         ArticulationBody joint = robotPart.GetComponent<ArticulationBody>();
@@ -101,7 +101,7 @@ public class ScaraController : MonoBehaviour
         jointDrive.upperLimit = upperLimit;
 
         joint.xDrive = jointDrive;
-    }
+    }*/
 
     public int GetNRotationJoints()
     {

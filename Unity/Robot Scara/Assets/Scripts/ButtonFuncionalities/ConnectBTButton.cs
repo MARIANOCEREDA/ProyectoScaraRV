@@ -7,27 +7,21 @@ using UnityEngine.UI;
 public class ConnectBTButton : MonoBehaviour
 {
     // Start is called before the first frame update
-    private Image image;
-    public Color connectedColor, disconnectedColor;
-
-    public void Start()
-    {
-        image = GetComponent<Image>();
-    }
+    public GameObject button;
 
     public void OnConnectBluetooth()
     {
         BluetoothManager.Instance.OnConnect();
 
-        if(BluetoothManager.Instance.getConnectionStatus() == BTConnectionStatus.CONNECTED)
+        if (BluetoothManager.Instance.getConnectionStatus() == BTConnectionStatus.CONNECTED)
         {
             Debug.Log("Setting button color to blue ...");
-            image.color = connectedColor;
+            button.GetComponent<Image>().color = Color.blue;
         }
         else
         {
             Debug.Log("Setting button color to red ...");
-            image.color = disconnectedColor;
+            button.GetComponent<Image>().color = Color.red;
         }
     }
 }

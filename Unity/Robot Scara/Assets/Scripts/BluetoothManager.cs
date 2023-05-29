@@ -151,7 +151,7 @@ public class BluetoothManager : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.Log("Error when trying to Open Serial Communication: " + err);
+            Debug.LogError("Error when trying to Open Serial Communication: " + err);
             //throw err;
         }
     }
@@ -165,13 +165,13 @@ public class BluetoothManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("The connection is not open.");
+                Debug.LogError("The connection is not open.");
             }
 
         }
         catch (IOException err)
         {
-            Debug.Log("Error when trying to close the connection: " + err);
+            Debug.LogError("Error when trying to close the connection: " + err);
         }
     }
 
@@ -222,7 +222,20 @@ public class BluetoothManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Serial Port " + port + " is not Open.");
+            Debug.LogError("Serial Port " + port + " is not Open.");
         }
+    }
+
+    public void SetComPort(string portName)
+    {
+        if (portName.Contains("COM"))
+        {
+            port = portName;
+        }
+        else
+        {
+            Debug.LogError("Incorrect port name. Format must be: COM<PORT_NUMBER>, not: " + portName);
+        }
+        
     }
 }
