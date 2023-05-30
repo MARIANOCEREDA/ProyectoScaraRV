@@ -22,7 +22,7 @@ public class BluetoothManager : MonoBehaviour
 
     private BTConnectionStatus status;
     private int BAUDRATE = 115200;
-    private int READ_TIMEOUT = 10000;
+    private int READ_TIMEOUT = 100000;
     private int WRITE_TIMEOUT = 10000;
     private string port = "COM5";
     private string deviceName = "HC-06";
@@ -202,14 +202,21 @@ public class BluetoothManager : MonoBehaviour
 
     void parseIncomingMessage(string rawMessage)
     {
-        string[] angleValues = rawMessage.Split(";");
-        if (rawMessage != null)
+        if (rawMessage.StartsWith(':'))
         {
-            inAngles[0] = float.Parse(angleValues[0]);
-            inAngles[1] = float.Parse(angleValues[1]);
-            inAngles[2] = float.Parse(angleValues[2]);
+            string[] angleValues = rawMessage.Substring(1,rawMessage.Length - 1).Split(";");
+            if (rawMessage != null)
+            {
+                inAngles[0] = float.Parse(angleValues[0]);
+                inAngles[1] = float.Parse(angleValues[1]);
+                inAngles[2] = float.Parse(angleValues[2]);
 
-            Debug.Log("Angles {" + inAngles[0] + " ; " + inAngles[1] + " ; " + inAngles[2] + "}");
+                Debug.Log("Angles {" + inAngles[0] + " ; " + inAngles[1] + " ; " + inAngles[2] + "}");
+            }
+        }
+        else
+        {
+            Debug.LogError("Incomming message incorrect format: " + rawMessage);
         }
     }
 
