@@ -25,6 +25,7 @@
 #include <SoftwareSerial.h>
 
 #define PIN_START 2
+#define PIN_LED_STARTED 6 
 #define PIN_RX_BT_SERIAL 7
 #define PIN_TX_BT_SERIAL 8
 #define PIN_VIBRATOR 5
@@ -81,6 +82,7 @@ void setup() {
   pinMode(PIN_EF_MOVE_DOWN, INPUT);
 
   pinMode(PIN_VIBRATOR, OUTPUT);  // pin vibrador
+  pinMode(PIN_LED_STARTED, OUTPUT);
 
   Serial.begin(SERIAL_BAUDRATE);
   bluetoothSerial.begin(BT_SERIAL_BAUDRATE);
@@ -114,8 +116,8 @@ void loop() {
     Vector norm2 = mpu2.readNormalizeGyro();
 
     // Calculamos Pitch, Roll and Yaw usando la libreria
-    //pitch1 = pitch1 + norm1.YAxis * timeStep;
-    //roll1 = roll1 + norm1.XAxis * timeStep;
+    // pitch1 = pitch1 + norm1.YAxis * timeStep;
+    // roll1 = roll1 + norm1.XAxis * timeStep;
     yaw1 = yaw1 + norm1.ZAxis * timeStep;
     yaw2 = yaw2 + norm2.ZAxis * timeStep;
 
@@ -152,9 +154,10 @@ void loop() {
     }
 
     //Enviamos y recibimos datos por bluetooth
-    bluetoothSerial.print(angulo1 + ";" + angulo2 + ";" + efectfin);
+    bluetoothSerial.print(":" + angulo1 + ";" + angulo2 + ";" + efectfin);
     bluetoothSerial.println();
 
+    // Mostramos los angulos por monitor serial
     printAngles(true, false, true);
 
     if (bluetoothSerial.available()) {
@@ -217,9 +220,11 @@ void onStart() {
   if (!start) {
     start = true;
     Serial.println("Status: STARTED");
+    digitalWrite(PIN_LED_STARTED, HIGH);
   } else if (start) {
     start = false;
     Serial.println("Status: STOPPED");
+    digitalWrite(PIN_LED_STARTED, LOW);
   }
 
 }
