@@ -24,7 +24,7 @@
 #include <MPU6050.h>
 #include <SoftwareSerial.h>
 
-#define PIN_START 6
+#define PIN_START 2
 #define PIN_RX_BT_SERIAL 7
 #define PIN_TX_BT_SERIAL 8
 #define PIN_VIBRATOR 5
@@ -71,16 +71,16 @@ float yaw[] = { 0, 0 };
 float roll[] = { 0, 0 };
 
 
-// Function declaration
+// Declaracion de funciones
 void printAngles(bool, bool, bool);
 void onStart();
 
 
 void setup() {
-  pinMode(PIN_EF_MOVE_UP, INPUT);  // pines de efector final y vibración
+  pinMode(PIN_EF_MOVE_UP, INPUT);  // pines de efector final
   pinMode(PIN_EF_MOVE_DOWN, INPUT);
 
-  pinMode(PIN_VIBRATOR, OUTPUT);  // vibration pin
+  pinMode(PIN_VIBRATOR, OUTPUT);  // pin vibrador
 
   Serial.begin(SERIAL_BAUDRATE);
   bluetoothSerial.begin(BT_SERIAL_BAUDRATE);
@@ -104,6 +104,7 @@ void setup() {
 void loop() {
 
   if (start) {
+
     arriba = digitalRead(PIN_EF_MOVE_UP);
     abajo = digitalRead(PIN_EF_MOVE_DOWN);
 
@@ -215,8 +216,10 @@ void onStart() {
 
   if (!start) {
     start = true;
+    Serial.println("Status: STARTED");
   } else if (start) {
     start = false;
+    Serial.println("Status: STOPPED");
   }
 
 }
