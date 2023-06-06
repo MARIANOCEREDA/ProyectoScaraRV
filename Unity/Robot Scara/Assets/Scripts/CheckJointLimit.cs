@@ -19,7 +19,7 @@ public class CheckJointLimit : MonoBehaviour
     {
         articulation = GetComponent<ArticulationBody>();
         jointLimitColor = jointLimitUI.GetComponent<UpdateJointLimitColor>();
-        //jointPositionText = jointPositionUI.GetComponent<DisplayJointPosition>();
+        limitReached = false;
         
     }
 
@@ -32,17 +32,14 @@ public class CheckJointLimit : MonoBehaviour
         upperLimit = drive.upperLimit;
         lowerLimit = drive.lowerLimit;
 
-        // Always display position
-        //jointPositionText.UpdateImageText(currentPos);
-
-        if(currentPos < lowerLimit)
+        if(currentPos < lowerLimit && limitReached == false)
         {
             limitReached = true;
             Debug.Log("Lower Limit reached!");
             jointLimitColor.changeBackgroundColor();
             BluetoothManager.Instance.sendMessage("1");
         }
-        else if (currentPos > upperLimit)
+        else if (currentPos > upperLimit && limitReached == false)
         {
             Debug.Log("Upper Limit reached!");
             jointLimitColor.changeBackgroundColor();
@@ -50,7 +47,7 @@ public class CheckJointLimit : MonoBehaviour
             BluetoothManager.Instance.sendMessage("1");
         }
 
-        if(limitReached && currentPos > lowerLimit && currentPos < upperLimit)
+        if(limitReached && currentPos > lowerLimit && currentPos < upperLimit && limitReached == true)
         {
             limitReached = false;
             Debug.Log("Reset color to white.");

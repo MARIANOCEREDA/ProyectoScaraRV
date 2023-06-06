@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor.PackageManager;
+/*using UnityEngine.UI;
+using UnityEditor.PackageManager;*/
 
 public enum BTConnectionStatus { CONNECTED, DISCONNECTED }
 
@@ -23,8 +23,8 @@ public class BluetoothManager : MonoBehaviour
     private BTConnectionStatus status;
     private int BAUDRATE = 115200;
     private int READ_TIMEOUT = 100000;
-    private int WRITE_TIMEOUT = 10000;
-    private string port = "COM5";
+    private int WRITE_TIMEOUT = 100000;
+    private string port = "COM6";
     private string deviceName = "HC-06";
     private SerialPort _serialPort;
     string message;
@@ -72,7 +72,7 @@ public class BluetoothManager : MonoBehaviour
 
     private void Start()
     {
-        OnConnect();
+        //OnConnect();
     }
 
 

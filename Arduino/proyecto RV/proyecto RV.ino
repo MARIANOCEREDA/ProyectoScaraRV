@@ -25,7 +25,6 @@
 #include <SoftwareSerial.h>
 
 #define PIN_START 2
-#define PIN_LED_STARTED 6 
 #define PIN_RX_BT_SERIAL 7
 #define PIN_TX_BT_SERIAL 8
 #define PIN_VIBRATOR 5
@@ -40,7 +39,7 @@ SoftwareSerial bluetoothSerial(PIN_RX_BT_SERIAL, PIN_TX_BT_SERIAL);  // RX, TX c
 MPU6050 mpu1;
 MPU6050 mpu2;
 
-const int ANGLE_SENSITIVITY = 2;  // deg
+const int ANGLE_SENSITIVITY = 1;  // deg
 const int THRESHOLD_SENSITIVITY = 3;
 
 // Timers
@@ -82,7 +81,6 @@ void setup() {
   pinMode(PIN_EF_MOVE_DOWN, INPUT);
 
   pinMode(PIN_VIBRATOR, OUTPUT);  // pin vibrador
-  pinMode(PIN_LED_STARTED, OUTPUT);
 
   Serial.begin(SERIAL_BAUDRATE);
   bluetoothSerial.begin(BT_SERIAL_BAUDRATE);
@@ -116,29 +114,28 @@ void loop() {
     Vector norm2 = mpu2.readNormalizeGyro();
 
     // Calculamos Pitch, Roll and Yaw usando la libreria
-    // pitch1 = pitch1 + norm1.YAxis * timeStep;
-    // roll1 = roll1 + norm1.XAxis * timeStep;
+    //pitch1 = pitch1 + norm1.YAxis * timeStep;
+    //roll1 = roll1 + norm1.XAxis * timeStep;
     yaw1 = yaw1 + norm1.ZAxis * timeStep;
     yaw2 = yaw2 + norm2.ZAxis * timeStep;
 
-    //Analizamos angulos previos y si varia por 2° cambiamos el valor.
-
+    //Analizamos angulos previos y si varia por 1° cambiamos el valor.
     if ((yaw1 >= xprev1 + ANGLE_SENSITIVITY))
     {
       xprev1 = yaw1;
-      angulo1 = "1";
+      angulo1 = "-1";
     } else if (yaw1 <= xprev1 - ANGLE_SENSITIVITY) {
       xprev1 = yaw1;
-      angulo1 = "-1";
+      angulo1 = "1";
     } else {
       angulo1 = "0";
     }
     if ((yaw2 >= xprev2 + ANGLE_SENSITIVITY)) {
       xprev2 = yaw2;
-      angulo2 = "1";
+      angulo2 = "-1";
     } else if (yaw2 <= xprev2 - ANGLE_SENSITIVITY) {
       xprev2 = yaw2;
-      angulo2 = "-1";
+      angulo2 = "1";
     } else {
       angulo2 = "0";
     }
@@ -154,21 +151,20 @@ void loop() {
     }
 
     //Enviamos y recibimos datos por bluetooth
-    bluetoothSerial.print(":" + angulo1 + ";" + angulo2 + ";" + efectfin);
+    bluetoothSerial.print(":"+ angulo1 + ";" + angulo2 + ";" + efectfin);
     bluetoothSerial.println();
 
-    // Mostramos los angulos por monitor serial
-    printAngles(true, false, true);
+    printAngles(false, false, false);
 
     if (bluetoothSerial.available()) {
       limit = bluetoothSerial.read();
+      Serial.print("Limit message: ");
       Serial.println(limit);
-    } else {
-      limit = '0';
     }
+
     if (limit == '1') {
       digitalWrite(PIN_VIBRATOR, HIGH);
-    } else {
+    } else if (limit == '0'){
       digitalWrite(PIN_VIBRATOR, LOW);
     }
 
@@ -186,6 +182,7 @@ void loop() {
 * @param pitch {bool} - indicates if pitch angles wants to be printed.
 * @pasram yaw {bool} - indicates if yaw angles wants to be printed.
 */
+
 void printAngles(bool roll, bool pitch, bool yaw) {
 
   if (yaw) {
@@ -220,12 +217,9 @@ void onStart() {
   if (!start) {
     start = true;
     Serial.println("Status: STARTED");
-    digitalWrite(PIN_LED_STARTED, HIGH);
   } else if (start) {
     start = false;
     Serial.println("Status: STOPPED");
-    digitalWrite(PIN_LED_STARTED, LOW);
   }
 
 }
-

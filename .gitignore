@@ -83,4 +83,8 @@ Unity/Robot Scara/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 Unity/Robot Scara/[Aa]ssets/[Ss]treamingAssets/aa.meta
 Unity/Robot Scara/[Aa]ssets/[Ss]treamingAssets/aa/*
 
+Videos/
+Unity/Ejecutable/
+*.zip
+
 # End of https://www.toptal.com/developers/gitignore/api/unity
