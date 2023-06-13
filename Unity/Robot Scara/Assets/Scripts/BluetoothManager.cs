@@ -152,7 +152,7 @@ public class BluetoothManager : MonoBehaviour
         catch (Exception err)
         {
             Debug.LogError("Error when trying to Open Serial Communication: " + err);
-            //throw err;
+            throw err;
         }
     }
     public void OnDisconnect()
@@ -226,6 +226,7 @@ public class BluetoothManager : MonoBehaviour
         {
             _serialPort.WriteLine(message);
             _serialPort.BaseStream.Flush();
+            Debug.Log("Sending message : " + message  + " via Bluetooth");
         }
         else
         {
@@ -235,9 +236,10 @@ public class BluetoothManager : MonoBehaviour
 
     public void SetComPort(string portName)
     {
-        if (portName.Contains("COM"))
+        if (portName.StartsWith("COM"))
         {
             port = portName;
+            Debug.Log("COM port set to: " + portName);
         }
         else
         {

@@ -8,6 +8,8 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] public GameObject PauseMenuPanel;
     [SerializeField] public GameObject MainMenuPanel;
+    [SerializeField] public GameObject ConfigurationPausePanel;
+
 
     // Update is called once per frame
     public void Pause()
@@ -30,10 +32,17 @@ public class PauseMenu : MonoBehaviour
 
     }
 
+    public void DisplayConfiguration()
+    {
+        PauseMenuPanel.SetActive(false);
+        ConfigurationPausePanel.SetActive(true);
+    }
+
     public void Exit()
     {
         MainMenuPanel.SetActive(true);
         Application.Quit();
         Debug.Log("Exit Game ...");
     }
+
 }

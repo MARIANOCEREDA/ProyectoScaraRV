@@ -8,6 +8,8 @@ public class ConnectBTButton : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject button;
+    public Color connectColor;
+    public Color disconnectColor;
 
     public void OnConnectBluetooth()
     {
@@ -16,12 +18,12 @@ public class ConnectBTButton : MonoBehaviour
         if (BluetoothManager.Instance.getConnectionStatus() == BTConnectionStatus.CONNECTED)
         {
             Debug.Log("Setting button color to blue ...");
-            button.GetComponent<Image>().color = Color.blue;
+            button.GetComponent<Image>().color = connectColor;
         }
         else
         {
             Debug.Log("Setting button color to red ...");
-            button.GetComponent<Image>().color = Color.red;
+            button.GetComponent<Image>().color = disconnectColor;
         }
     }
 }
