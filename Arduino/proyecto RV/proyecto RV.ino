@@ -48,6 +48,14 @@ float timeStep = 0.01;
 
 // start button
 bool start = false;
+bool reset_direction = false;
+
+// right and left
+String right = "1";
+String left = "-1";
+
+// Uart
+char serial_msg = "";
 
 // angulo previo, servira para futuros calculos
 float xprev1, xprev2;
@@ -65,6 +73,9 @@ float yaw1 = 0;
 float pitch2 = 0;
 float roll2 = 0;
 float yaw2 = 0;
+float relative_yaw2 = 0;
+
+// Current angles to reset to zero when desired
 
 float pitch[] = { 0, 0 };
 float yaw[] = { 0, 0 };
@@ -72,8 +83,11 @@ float roll[] = { 0, 0 };
 
 
 // Declaracion de funciones
-void printAngles(bool, bool, bool);
+void printData();
 void onStart();
+void InitMpu();
+void ParseIncomingMessage();
+void ResetMpuAngles();
 
 
 void setup() {
@@ -87,10 +101,7 @@ void setup() {
   bluetoothSerial.println("Conectado");
 
   // Inicializamos ambos MPU6050
-  while (!mpu1.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x68) | !mpu2.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x69)) {
-    Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
-    delay(500);
-  }
+  InitMpu();
 
   mpu1.calibrateGyro();  // calibración del giroscopo
   mpu2.calibrateGyro();
@@ -118,24 +129,25 @@ void loop() {
     //roll1 = roll1 + norm1.XAxis * timeStep;
     yaw1 = yaw1 + norm1.ZAxis * timeStep;
     yaw2 = yaw2 + norm2.ZAxis * timeStep;
+    relative_yaw2 = yaw2 - yaw1;
 
     //Analizamos angulos previos y si varia por 1° cambiamos el valor.
     if ((yaw1 >= xprev1 + ANGLE_SENSITIVITY))
     {
       xprev1 = yaw1;
-      angulo1 = "-1";
+      angulo1 = right;
     } else if (yaw1 <= xprev1 - ANGLE_SENSITIVITY) {
       xprev1 = yaw1;
-      angulo1 = "1";
+      angulo1 = left;
     } else {
       angulo1 = "0";
     }
-    if ((yaw2 >= xprev2 + ANGLE_SENSITIVITY)) {
-      xprev2 = yaw2;
-      angulo2 = "-1";
-    } else if (yaw2 <= xprev2 - ANGLE_SENSITIVITY) {
-      xprev2 = yaw2;
-      angulo2 = "1";
+    if ((relative_yaw2 >= xprev2 + ANGLE_SENSITIVITY)) {
+      xprev2 = relative_yaw2;
+      angulo2 = right;
+    } else if (relative_yaw2 <= xprev2 - ANGLE_SENSITIVITY) {
+      xprev2 = relative_yaw2;
+      angulo2 = left;
     } else {
       angulo2 = "0";
     }
@@ -154,12 +166,8 @@ void loop() {
     bluetoothSerial.print(":"+ angulo1 + ";" + angulo2 + ";" + efectfin);
     bluetoothSerial.println();
 
-    printAngles(false, false, false);
-
     if (bluetoothSerial.available()) {
-      limit = bluetoothSerial.read();
-      Serial.print("Limit message: ");
-      Serial.println(limit);
+      ParseIncomingMessage();
     }
 
     if (limit == '1') {
@@ -167,6 +175,13 @@ void loop() {
     } else if (limit == '0'){
       digitalWrite(PIN_VIBRATOR, LOW);
     }
+
+    if(reset_direction){
+      ResetMpuAngles();
+      reset_direction = false;
+    }
+
+    printData();
 
     delay(30);
   }
@@ -178,32 +193,59 @@ void loop() {
 * 
 * @brief print the yaw angles depending on the incoming parameters
 *
-* @param roll {bool} - indicates if roll angles wants to be printed.
-* @param pitch {bool} - indicates if pitch angles wants to be printed.
-* @pasram yaw {bool} - indicates if yaw angles wants to be printed.
 */
 
-void printAngles(bool roll, bool pitch, bool yaw) {
+void printData() {
+    Serial.print("Yaw 1 = ");
+    Serial.print(yaw1);
+    Serial.print(" - Yaw 2 = ");
+    Serial.print(yaw2);
+    Serial.print(" - Reset = ");
+    Serial.print(reset_direction);
+    Serial.print(" - Limit = ");
+    Serial.println(limit);
+}
 
-  if (yaw) {
-    Serial.print(" Yaw 1 = ");
-    Serial.println(yaw1);
-    Serial.print(" Yaw 2 = ");
-    Serial.println(yaw2);
+void ParseIncomingMessage(){
+  serial_msg = bluetoothSerial.read();
+  Serial.print(serial_msg);
+
+  switch (serial_msg) {
+    case '1':
+      limit = serial_msg;
+      break;
+
+    case '0':
+      limit = serial_msg;
+      break;
+
+    case 'R':
+      reset_direction = true;
+      break;
+    
+    default: break;
   }
+}
 
-  if (pitch) {
-    Serial.print(" Pitch 1 = ");
-    Serial.println(pitch1);
-    Serial.print(" Pitch 2 = ");
-    Serial.println(pitch2);
-  }
+void ResetMpuAngles(){
 
-  if (roll) {
-    Serial.print(" Roll 1 = ");
-    Serial.println(roll1);
-    Serial.print(" Roll 2 = ");
-    Serial.println(roll2);
+  // anlgles
+  yaw1 = 0;
+  yaw2 = 0;
+
+  // previous angles
+  xprev1 = 0;
+  xprev2 = 0;
+
+  // reset direction
+  //right = "-1";
+  //left = "1";
+}
+
+void InitMpu(){
+  while (!mpu1.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x68) | !mpu2.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, 0x69)) {
+    Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
+    delay(500);
   }
 }
 
